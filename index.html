@@ -554,7 +554,7 @@ function displayResults(results, appCount, domainCount) {
     const countInfo = document.getElementById('countInfo');
 
     if (results.length === 0) {
-        container.innerHTML = '<div class="empty-state"><strong class="status-success">✓ 兩邊無差異 👍</strong></div>';
+        container.innerHTML = '<div class="empty-state"><strong class="status-success">👍 兩邊無差異 👍</strong></div>';
         countInfo.textContent = `APP 域名: ${appCount} | 官方域名: ${domainCount} | 差異: 0`;
         return;
     }
