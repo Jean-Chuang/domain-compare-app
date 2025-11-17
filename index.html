@@ -31,18 +31,26 @@ body {
     background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
     color: var(--color-text-primary);
     padding: 20px;
+    padding-top: 100px;
     min-height: 100vh;
 }
 
 .container {
     max-width: 1600px;
     margin: 0 auto;
+    padding-top: 20px;
 }
 
 h1 {
+    position: sticky;
+    top: 0;
+    z-index: 100;
     text-align: center;
     margin-bottom: 40px;
+    padding: 20px 0;
     font-size: 32px;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+    border-bottom: 1px solid var(--color-border);
     background: linear-gradient(135deg, #00d4ff, #00ff88);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -379,7 +387,7 @@ button {
     <div class="input-section">
         <div class="input-group">
             <label>步驟 1：直接貼上斥候一鍵複製的域名</label>
-            <textarea id="urlInput" placeholder="https://yfsf.note-book-a201.top, https://pty.if818-zip9yf152.to, ..."></textarea>
+            <textarea id="urlInput" placeholder="https://yfsf.note-book-a201.top, [https://pty.if818-zip9yf152.to](https://pty.if818-zip9yf152.to), ..."></textarea>
             <button class="btn-convert" onclick="convertUrls()">轉換為 APP 域名列表</button>
         </div>
         <div class="input-group">
@@ -392,7 +400,9 @@ button {
     <div class="input-section">
         <div class="input-group">
             <label>貼上運維域名表（每行一個）</label>
-            <textarea id="domainList" placeholder="ogqay67nm.0222506.xyz&#10;45.192.210.100&#10;..."></textarea>
+            <textarea id="domainList" placeholder="ogqay67nm.0222506.xyz
+45.192.210.100
+..."></textarea>
         </div>
     </div>
 
@@ -539,7 +549,7 @@ function clearAll() {
     document.getElementById('urlInput').value = '';
     document.getElementById('appList').value = '';
     document.getElementById('domainList').value = '';
-    document.getElementById('resultsContainer').innerHTML = '<div class="empty-state"><strong>尚未進行比對</strong><br>請先貼上 APP 域名和官方域名的數據</div>';
+    document.getElementById('resultsContainer').innerHTML = '<div class="empty-state"><strong>尚未進行比對</strong><br>請先貼上APP域名和要比對的域名</div>';
     document.getElementById('countInfo').textContent = '';
     document.getElementById('copyDiffBtn').style.display = 'none';
     window._diffDomainsCopyList = '';
