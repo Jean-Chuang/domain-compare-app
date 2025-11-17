@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>域名比對工具</title>
+    <style>
+        :root {
+            --color-primary: #32b8c6;
+            --color-success: #22c55e;
+            --color-error: #ef4444;
+            --color-bg: #f5f5f5;
+            --color-surface: #ffffff;
+            --color-text: #1f2121;
+            --color-border: #e5e5e5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--color-primary);
+        }
+        
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .input-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .input-group {
+            background: var(--color-surface);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+        
+        .input-group textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+        
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(50, 184, 198, 0.1);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-compare {
+            background: var(--color-primary);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-compare:hover {
+            background: #2a9daa;
+        }
+        
+        .btn-clear {
+            background: var(--color-error);
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background: #dc2626;
+        }
+        
+        .btn-convert {
+            background: #8b5cf6;
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-convert:hover {
+            background: #7c3aed;
+        }
+        
+        .results-section {
+            background: var(--color-surface);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .results-header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .results-count {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+        }
+        
+        .results-table thead {
+            background: #f9f9f9;
+            border-bottom: 2px solid var(--color-border);
+        }
+        
+        .results-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+        
+        .results-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--color-border);
+            word-break: break-all;
+        }
+        
+        .results-table tbody tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .status-success {
+            color: var(--color-success);
+            font-weight: 600;
+        }
+        
+        .status-diff {
+            color: var(--color-error);
+            font-weight: 600;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        .copy-btn {
+            background: #e5e5e5;
+            color: var(--color-text);
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: #d4d4d4;
+        }
+        
+        .scroll-wrapper {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 域名/IP 比對工具</h1>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label>步驟 1：貼上逗號分隔的網址列表</label>
+                <textarea id="urlInput" placeholder="https://yfsf.note-book-a201.top,https://pty.if818-zip9yf152.to,..."></textarea>
+                <button class="btn-convert" onclick="convertUrls()">轉換為域名列表</button>
+            </div>
+            <div class="input-group">
+                <label>APP 域名列表（轉換結果）</label>
+                <textarea id="appList" placeholder="轉換後的域名會顯示在這裡..."></textarea>
+            </div>
+        </div>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label>貼上域名表列表（每行一個）</label>
+                <textarea id="domainList" placeholder="ogqay67nm.0222506.xyz&#10;https://45.192.210.100:48911&#10;..."></textarea>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn-compare" onclick="compareData()">步驟 2：執行比對</button>
+            <button class="btn-clear" onclick="clearAll()">清除全部</button>
+        </div>
+        
+        <div class="results-section">
+            <div class="results-header">
+                <h2>比對結果</h2>
+                <div class="results-count" id="countInfo"></div>
+            </div>
+            
+            <div id="resultsContainer" class="empty-state">
+                尚未進行比對，請先貼上數據並點擊「執行比對」
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function convertUrls() {
+            const urlInput = document.getElementById('urlInput').value;
+            
+            if (!urlInput.trim()) {
+                alert('請先貼上逗號分隔的網址列表');
+                return;
+            }
+            
+            // 移除 https:// 並以逗號分割
+            const cleaned = urlInput.replace(/https:\/\//g, '');
+            const items = cleaned.split(',');
+            const values = items
+                .map(item => item.trim())
+                .filter(item => item.length > 0);
+            
+            // 顯示到 APP 域名列表
+            document.getElementById('appList').value = values.join('\n');
+            console.log('成功轉換 ' + values.length + ' 個域名');
+        }
+        
+        function normalizeData(text) {
+            // 將每行資料標準化
+            return text
+                .split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 0)
+                .map(line => {
+                    // 移除 https:// 或 http:// 前綴
+                    line = line.replace(/^https?:\/\//i, '');
+                    // 移除冒號後的內容（端口號）
+                    if (line.indexOf(':') !== -1) {
+                        line = line.substring(0, line.indexOf(':'));
+                    }
+                    return line;
+                });
+        }
+
+        function compareData() {
+            const appText = document.getElementById('appList').value;
+            const domainText = document.getElementById('domainList').value;
+
+            if (!appText.trim() || !domainText.trim()) {
+                alert('請在兩個欄位都貼上數據');
+                return;
+            }
+
+            const appList = normalizeData(appText);
+            const domainList = normalizeData(domainText);
+
+            const results = [];
+
+            // A 有但 B 無
+            for (let item of appList) {
+                if (!domainList.includes(item)) {
+                    results.push({
+                        content: item,
+                        status: 'APPYES/域名表NO',
+                        type: 'diff'
+                    });
+                }
+            }
+
+            // B 有但 A 無
+            for (let item of domainList) {
+                if (!appList.includes(item)) {
+                    results.push({
+                        content: item,
+                        status: 'APPNO/域名表YES',
+                        type: 'diff'
+                    });
+                }
+            }
+
+            // 顯示結果
+            displayResults(results, appList.length, domainList.length);
+        }
+
+        function displayResults(results, appCount, domainCount) {
+            const container = document.getElementById('resultsContainer');
+            const countInfo = document.getElementById('countInfo');
+
+            if (results.length === 0) {
+                container.innerHTML = '<div class="empty-state"><strong class="status-success">✓ 兩邊無差異 👍</strong></div>';
+                countInfo.textContent = `APP列表: ${appCount} | 域名表: ${domainCount} | 差異: 0`;
+                return;
+            }
+
+            let html = `
+                <div class="scroll-wrapper">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>差異內容</th>
+                                <th>差異類型</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            results.forEach((result, index) => {
+                html += `
+                    <tr>
+                        <td>${escapeHtml(result.content)}</td>
+                        <td><span class="status-diff">${result.status}</span></td>
+                        <td><button class="copy-btn" onclick="copyToClipboard('${escapeHtml(result.content, true)}')">複製</button></td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = html;
+            countInfo.textContent = `差異數: ${results.length}`;
+        }
+
+        function escapeHtml(text, forJs = false) {
+            if (forJs) {
+                return text.replace(/'/g, "\\'");
+            }
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('已複製到剪貼板');
+            });
+        }
+
+        function clearAll() {
+            document.getElementById('appList').value = '';
+            document.getElementById('domainList').value = '';
+            document.getElementById('resultsContainer').innerHTML = '尚未進行比對，請先貼上數據並點擊「執行比對」';
+            document.getElementById('countInfo').textContent = '';
+        }
+    </script>
+</body>
+</html>
