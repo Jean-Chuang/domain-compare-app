@@ -209,6 +209,24 @@
         .scroll-wrapper {
             overflow-x: auto;
         }
+        
+        .copy-btn-all {
+            background: #32b8c6;
+            color: white;
+            padding: 8px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: none;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        
+        .copy-btn-all:hover {
+            background: #2a9daa;
+        }
     </style>
 </head>
 <body>
@@ -224,6 +242,7 @@
             <div class="input-group">
                 <label>APP 域名列表（轉換結果）</label>
                 <textarea id="appList" placeholder="轉換後的域名會顯示在這裡..."></textarea>
+                <button class="copy-btn-all" onclick="copyAllResults()">複製全部 APP 域名</button>
             </div>
         </div>
         
@@ -235,7 +254,7 @@
         </div>
         
         <div class="button-group">
-            <button class="btn-compare" onclick="compareData()">步驟 2：APP綁定域名 vs 域名表</button>
+            <button class="btn-compare" onclick="compareData()">步驟 2：APP綁定域名 vs 域名表域名</button>
             <button class="btn-clear" onclick="clearAll()">清除全部</button>
         </div>
         
@@ -391,6 +410,17 @@
                 alert('已複製到剪貼板');
             });
         }
+        
+        function copyAllResults() {
+            const appList = document.getElementById('appList').value;
+            if (!appList.trim()) {
+                alert('請先進行轉換');
+                return;
+            }
+            navigator.clipboard.writeText(appList).then(() => {
+                alert('已複製所有 APP 域名到剪貼板');
+            });
+        }
 
         function clearAll() {
             document.getElementById('appList').value = '';
@@ -398,6 +428,9 @@
             document.getElementById('resultsContainer').innerHTML = '尚未進行比對，請先貼上數據並點擊「執行比對」';
             document.getElementById('countInfo').textContent = '';
         }
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
