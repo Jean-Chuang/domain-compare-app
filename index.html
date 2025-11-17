@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>域名比對工具</title>
+    <title>APP域名比對工具</title>
     <style>
         :root {
             --color-primary: #32b8c6;
@@ -213,13 +213,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>🔍 域名/IP 比對工具</h1>
+        <h1>🔍 APP域名比對工具</h1>
         
         <div class="input-section">
             <div class="input-group">
-                <label>步驟 1：貼上逗號分隔的網址列表</label>
+                <label>步驟 1：貼上逗號分隔的 APP 網址列表</label>
                 <textarea id="urlInput" placeholder="https://yfsf.note-book-a201.top,https://pty.if818-zip9yf152.to,..."></textarea>
-                <button class="btn-convert" onclick="convertUrls()">轉換為域名列表</button>
+                <button class="btn-convert" onclick="convertUrls()">轉換為 APP 域名列表</button>
             </div>
             <div class="input-group">
                 <label>APP 域名列表（轉換結果）</label>
@@ -229,13 +229,13 @@
         
         <div class="input-section">
             <div class="input-group">
-                <label>貼上域名表列表（每行一個）</label>
+                <label>貼上官方域名列表（每行一個）</label>
                 <textarea id="domainList" placeholder="ogqay67nm.0222506.xyz&#10;https://45.192.210.100:48911&#10;..."></textarea>
             </div>
         </div>
         
         <div class="button-group">
-            <button class="btn-compare" onclick="compareData()">步驟 2：執行比對</button>
+            <button class="btn-compare" onclick="compareData()">步驟 2：APP 域名 vs 官方域名</button>
             <button class="btn-clear" onclick="clearAll()">清除全部</button>
         </div>
         
@@ -246,7 +246,7 @@
             </div>
             
             <div id="resultsContainer" class="empty-state">
-                尚未進行比對，請先貼上數據並點擊「執行比對」
+                尚未進行比對，請先貼上 APP 域名和官方域名的數據
             </div>
         </div>
     </div>
@@ -335,7 +335,7 @@
 
             if (results.length === 0) {
                 container.innerHTML = '<div class="empty-state"><strong class="status-success">✓ 兩邊無差異 👍</strong></div>';
-                countInfo.textContent = `APP列表: ${appCount} | 域名表: ${domainCount} | 差異: 0`;
+                countInfo.textContent = `APP 域名: ${appCount} | 官方域名: ${domainCount} | 差異: 0`;
                 return;
             }
 
@@ -369,7 +369,7 @@
             `;
 
             container.innerHTML = html;
-            countInfo.textContent = `差異數: ${results.length}`;
+            countInfo.textContent = `APP 域名: ${appCount} | 官方域名: ${domainCount} | 差異數: ${results.length}`;
         }
 
         function escapeHtml(text, forJs = false) {
