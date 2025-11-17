@@ -360,7 +360,21 @@ button {
 </head>
 <body>
 <div class="container">
-    <h1>🔍 APP 域名比對工具</h1>
+    <h1><svg width="36" height="36" viewBox="0 0 36 36" style="vertical-align: middle; margin-right: 10px; display: inline-block;">
+        <defs>
+            <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+        <!-- 放大鏡圓圈 -->
+        <circle cx="14" cy="14" r="11" fill="none" stroke="url(#iconGrad)" stroke-width="2.5"/>
+        <!-- 放大鏡手柄 -->
+        <line x1="23" y1="23" x2="30" y2="30" stroke="url(#iconGrad)" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- 內部十字線 -->
+        <line x1="14" y1="8" x2="14" y2="20" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+        <line x1="8" y1="14" x2="20" y2="14" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+    </svg> APP 域名比對工具</h1>
     
     <div class="input-section">
         <div class="input-group">
