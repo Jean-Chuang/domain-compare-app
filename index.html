@@ -98,7 +98,7 @@ h2 {
 
 .input-group textarea {
     width: 100%;
-    height: 160px;
+    height: 150px;
     padding: 12px;
     border: 1px solid var(--color-border);
     border-radius: 8px;
@@ -394,7 +394,7 @@ button {
         </div>
         <div id="resultsContainer" class="empty-state">
             <strong>尚未進行比對</strong><br>
-            請先貼上APP域名和想比對的域名
+            請先貼上APP域名和要比對的域名
         </div>
         <button class="copy-btn-all" id="copyDiffBtn" onclick="copyAllDiffDomains()" style="display:none;">複製全部差異域名</button>
     </div>
@@ -522,9 +522,10 @@ function copyAllDiffDomains() {
 }
 
 function clearAll() {
+    document.getElementById('urlInput').value = '';
     document.getElementById('appList').value = '';
     document.getElementById('domainList').value = '';
-    document.getElementById('resultsContainer').innerHTML = '尚未進行比對，請先貼上數據並點擊「比對差異」';
+    document.getElementById('resultsContainer').innerHTML = '<div class="empty-state"><strong>尚未進行比對</strong><br>請先貼上 APP 域名和官方域名的數據</div>';
     document.getElementById('countInfo').textContent = '';
     document.getElementById('copyDiffBtn').style.display = 'none';
     window._diffDomainsCopyList = '';
