@@ -421,7 +421,7 @@ function normalizeData(text) {
             if (line.indexOf(':') !== -1) {
                 line = line.substring(0, line.indexOf(':'));
             }
-            return line;
+            return line.toLowerCase();  // ← 加這行，轉成小寫
         });
 }
 
