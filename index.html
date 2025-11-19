@@ -595,12 +595,12 @@ function escapeHtml(text, forJs = false) {
             .replace(/\r?\n/g, '\\n');
     }
     const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '''
-    };
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+};
     return text.replace(/[&<>"']/g, m => map[m]);
 }
 
