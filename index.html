@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>[translate:APP域名比對工具]</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APP域名比對工具</title>
 <style>
 :root {
     --color-primary: #00d4ff;
@@ -12,21 +12,26 @@
     --color-error: #ff3366;
     --color-warning: #ffaa00;
     --color-bg-dark: #0a0e27;
-    --color-bg-card: rgba(26, 31, 58, 0.7);
-    --color-bg-input: rgba(15, 19, 41, 0.7);
+    --color-bg-card: #1a1f3a;
+    --color-bg-input: #0f1329;
     --color-text-primary: #e0e6ff;
     --color-text-secondary: #a0a8c8;
     --color-border: #2a3555;
     --color-border-hover: #3a4575;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at 25% 25%, #00d4ff 0%, #0a0e27 70%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Monaco', sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
     color: var(--color-text-primary);
     padding: 20px;
     min-height: 100vh;
-    margin: 0;
 }
 
 .container {
@@ -44,7 +49,6 @@ h1 {
     background-clip: text;
     text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
     letter-spacing: 1px;
-    user-select: none;
 }
 
 h2 {
@@ -71,16 +75,15 @@ h2 {
 .input-group {
     background: var(--color-bg-card);
     padding: 20px;
-    border-radius: 16px;
+    border-radius: 12px;
     border: 1px solid var(--color-border);
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.15);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
     transition: all 0.3s ease;
 }
 
 .input-group:hover {
     border-color: var(--color-border-hover);
-    box-shadow: 0 12px 40px rgba(0, 212, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
 }
 
 .input-group label {
@@ -91,7 +94,6 @@ h2 {
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    user-select: none;
 }
 
 .input-group textarea {
@@ -99,9 +101,8 @@ h2 {
     height: 150px;
     padding: 12px;
     border: 1px solid var(--color-border);
-    border-radius: 12px;
+    border-radius: 8px;
     background: var(--color-bg-input);
-    backdrop-filter: blur(5px);
     color: var(--color-text-primary);
     font-family: 'Monaco', 'Courier New', monospace;
     font-size: 12px;
@@ -112,7 +113,8 @@ h2 {
 .input-group textarea:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+    background: var(--color-bg-input);
 }
 
 .input-group textarea::placeholder {
@@ -129,7 +131,7 @@ h2 {
 button {
     padding: 12px 24px;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -137,42 +139,34 @@ button {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border: 1px solid transparent;
-    backdrop-filter: blur(5px);
-    background: rgba(0, 212, 255, 0.2);
-    color: var(--color-text-primary);
-    user-select: none;
-}
-
-button:hover {
-    background: rgba(0, 212, 255, 0.35);
-    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
-    transform: translateY(-2px);
-}
-
-button:active {
-    transform: translateY(0);
 }
 
 .btn-compare {
     background: linear-gradient(135deg, #00d4ff, #00a8cc);
     color: #0a0e27;
     flex: 1;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .btn-compare:hover {
     background: linear-gradient(135deg, #00e8ff, #00b8dc);
+    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.btn-compare:active {
+    transform: translateY(0);
 }
 
 .btn-clear {
-    background: rgba(255, 51, 102, 0.25);
+    background: rgba(255, 51, 102, 0.2);
     color: var(--color-error);
     border: 1px solid var(--color-error);
 }
 
 .btn-clear:hover {
-    background: rgba(255, 51, 102, 0.4);
-    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.4);
+    background: rgba(255, 51, 102, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
 }
 
 .btn-convert {
@@ -185,16 +179,16 @@ button:active {
 
 .btn-convert:hover {
     background: linear-gradient(135deg, #00ffaa, #00e8ff);
-    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.6);
+    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.5);
+    transform: translateY(-2px);
 }
 
 .results-section {
     background: var(--color-bg-card);
     padding: 20px;
-    border-radius: 16px;
+    border-radius: 12px;
     border: 1px solid var(--color-border);
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.15);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
 }
 
 .results-header {
@@ -211,7 +205,6 @@ button:active {
     font-size: 13px;
     color: var(--color-text-secondary);
     text-align: right;
-    user-select: none;
 }
 
 .results-table {
@@ -232,7 +225,6 @@ button:active {
     word-break: break-word;
     vertical-align: middle;
     text-align: center;
-    backdrop-filter: blur(5px);
 }
 
 .results-table th:nth-child(1),
@@ -269,7 +261,7 @@ button:active {
 }
 
 .results-table tbody tr:hover {
-    background: rgba(0, 212, 255, 0.1);
+    background: rgba(0, 212, 255, 0.05);
 }
 
 .status-success {
@@ -299,7 +291,6 @@ button:active {
     text-align: center;
     padding: 60px 20px;
     color: var(--color-text-secondary);
-    user-select: none;
 }
 
 .empty-state strong {
@@ -307,7 +298,7 @@ button:active {
 }
 
 .copy-btn {
-    background: rgba(0, 212, 255, 0.25);
+    background: rgba(0, 212, 255, 0.2);
     color: var(--color-primary);
     padding: 6px 12px;
     font-size: 11px;
@@ -315,12 +306,11 @@ button:active {
     border-radius: 6px;
     border: 1px solid var(--color-primary);
     transition: all 0.2s;
-    user-select: none;
 }
 
 .copy-btn:hover {
-    background: rgba(0, 212, 255, 0.4);
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+    background: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
 }
 
 .copy-btn-all {
@@ -329,25 +319,24 @@ button:active {
     padding: 12px 24px;
     font-size: 13px;
     cursor: pointer;
-    border-radius: 12px;
+    border-radius: 8px;
     border: none;
     font-weight: 600;
     width: 100%;
     margin-top: 15px;
     transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
-    user-select: none;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .copy-btn-all:hover {
     background: linear-gradient(135deg, #00e8ff, #00b8dc);
-    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
+    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
     transform: translateY(-2px);
 }
 
 .scroll-wrapper {
     overflow-x: auto;
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .scroll-wrapper::-webkit-scrollbar {
@@ -356,12 +345,12 @@ button:active {
 
 .scroll-wrapper::-webkit-scrollbar-track {
     background: var(--color-bg-input);
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .scroll-wrapper::-webkit-scrollbar-thumb {
     background: var(--color-primary);
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .scroll-wrapper::-webkit-scrollbar-thumb:hover {
@@ -371,38 +360,38 @@ button:active {
 </head>
 <body>
 <div class="container">
-    <h1>
-        <svg width="36" height="36" viewBox="0 0 36 36" style="vertical-align: middle; margin-right: 10px; display: inline-block;">
-            <defs>
-                <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <circle cx="14" cy="14" r="11" fill="none" stroke="url(#iconGrad)" stroke-width="2.5"/>
-            <line x1="23" y1="23" x2="30" y2="30" stroke="url(#iconGrad)" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="14" y1="8" x2="14" y2="20" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-            <line x1="8" y1="14" x2="20" y2="14" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-        </svg>
-        [translate:APP 域名比對工具]
-    </h1>
-
+    <h1><svg width="36" height="36" viewBox="0 0 36 36" style="vertical-align: middle; margin-right: 10px; display: inline-block;">
+        <defs>
+            <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+        <!-- 放大鏡圓圈 -->
+        <circle cx="14" cy="14" r="11" fill="none" stroke="url(#iconGrad)" stroke-width="2.5"/>
+        <!-- 放大鏡手柄 -->
+        <line x1="23" y1="23" x2="30" y2="30" stroke="url(#iconGrad)" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- 內部十字線 -->
+        <line x1="14" y1="8" x2="14" y2="20" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+        <line x1="8" y1="14" x2="20" y2="14" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+    </svg> APP 域名比對工具</h1>
+    
     <div class="input-section">
         <div class="input-group">
-            <label>[translate:步驟 1：直接貼上斥候一鍵複製的域名]</label>
+            <label>步驟 1：直接貼上斥候一鍵複製的域名</label>
             <textarea id="urlInput" placeholder="https://yfsf.note-book-a201.top, [https://pty.if818-zip9yf152.to](https://pty.if818-zip9yf152.to), ..."></textarea>
-            <button class="btn-convert" onclick="convertUrls()">[translate:轉換為 APP 域名列表]</button>
+            <button class="btn-convert" onclick="convertUrls()">轉換為 APP 域名列表</button>
         </div>
         <div class="input-group">
-            <label>[translate:APP 域名列表（轉換結果）]</label>
-            <textarea id="appList" placeholder="[translate:轉換後的域名會顯示在這裡...]"></textarea>
-            <button class="copy-btn-all" onclick="copyAllResults()">[translate:複製全部 APP 域名]</button>
+            <label>APP 域名列表（轉換結果）</label>
+            <textarea id="appList" placeholder="轉換後的域名會顯示在這裡..."></textarea>
+            <button class="copy-btn-all" onclick="copyAllResults()">複製全部 APP 域名</button>
         </div>
     </div>
 
     <div class="input-section">
         <div class="input-group">
-            <label>[translate:貼上運維域名表（每行一個）]</label>
+            <label>貼上運維域名表（每行一個）</label>
             <textarea id="domainList" placeholder="ogqay67nm.0222506.xyz
 45.192.210.100
 ..."></textarea>
@@ -410,20 +399,20 @@ button:active {
     </div>
 
     <div class="button-group">
-        <button class="btn-compare" onclick="compareData()">[translate:步驟 2：比對差異]</button>
-        <button class="btn-clear" onclick="clearAll()">[translate:清除全部]</button>
+        <button class="btn-compare" onclick="compareData()">步驟 2：比對差異</button>
+        <button class="btn-clear" onclick="clearAll()">清除全部</button>
     </div>
 
     <div class="results-section">
         <div class="results-header">
-            <h2>[translate:比對結果]</h2>
+            <h2>比對結果</h2>
             <div class="results-count" id="countInfo"></div>
         </div>
         <div id="resultsContainer" class="empty-state">
-            <strong>[translate:尚未進行比對]</strong><br />
-            [translate:請先貼上APP域名和要比對的域名]
+            <strong>尚未進行比對</strong><br>
+            請先貼上APP域名和要比對的域名
         </div>
-        <button class="copy-btn-all" id="copyDiffBtn" onclick="copyAllDiffDomains()" style="display:none;">[translate:複製全部差異域名]</button>
+        <button class="copy-btn-all" id="copyDiffBtn" onclick="copyAllDiffDomains()" style="display:none;">複製全部差異域名</button>
     </div>
 </div>
 
@@ -431,24 +420,24 @@ button:active {
 function convertUrls() {
     const urlInput = document.getElementById('urlInput').value;
     if (!urlInput.trim()) {
-        alert('[translate:請先貼上逗號分隔的網址列表]');
+        alert('請先貼上逗號分隔的網址列表');
         return;
     }
-    const cleaned = urlInput.replace(/https?:\\/\\//g, '');
+    const cleaned = urlInput.replace(/https:\/\//g, '');
     const items = cleaned.split(',');
     const values = items.map(item => item.trim()).filter(item => item.length > 0);
-    document.getElementById('appList').value = values.join('\\n');
+    document.getElementById('appList').value = values.join('\n');
 }
 
 function normalizeData(text) {
     return text
-        .split('\\n').map(line => line.trim()).filter(line => line.length > 0)
+        .split('\n').map(line => line.trim()).filter(line => line.length > 0)
         .map(line => {
-            line = line.replace(/^https?:\\/\\//i, '');
+            line = line.replace(/^https?:\/\//i, '');
             if (line.indexOf(':') !== -1) {
                 line = line.substring(0, line.indexOf(':'));
             }
-            return line.toLowerCase();
+            return line.toLowerCase();  // ← 加這行，轉成小寫
         });
 }
 
@@ -456,7 +445,7 @@ function compareData() {
     const appText = document.getElementById('appList').value;
     const domainText = document.getElementById('domainList').value;
     if (!appText.trim() || !domainText.trim()) {
-        alert('[translate:請在兩個欄位都貼上數據]');
+        alert('請在兩個欄位都貼上數據');
         return;
     }
     const appList = normalizeData(appText);
@@ -465,19 +454,19 @@ function compareData() {
     
     for (let item of appList) {
         if (!domainList.includes(item)) {
-            results.push({content: item, status: '[translate:APPYES/域名表NO]', type: 'diff'});
+            results.push({content: item, status: 'APPYES/域名表NO', type: 'diff'});
         }
     }
     
     for (let item of domainList) {
         if (!appList.includes(item)) {
-            results.push({content: item, status: '[translate:APPNO/域名表YES]', type: 'diff'});
+            results.push({content: item, status: 'APPNO/域名表YES', type: 'diff'});
         }
     }
     
     displayResults(results, appList.length, domainList.length);
     document.getElementById('copyDiffBtn').style.display = results.length ? 'block' : 'none';
-    window._diffDomainsCopyList = results.map(r => r.content).join('\\n');
+    window._diffDomainsCopyList = results.map(r => r.content).join('\n');
 }
 
 function displayResults(results, appCount, domainCount) {
@@ -485,17 +474,17 @@ function displayResults(results, appCount, domainCount) {
     const countInfo = document.getElementById('countInfo');
     
     if (results.length === 0) {
-        container.innerHTML = '<div class="empty-state"><strong class="status-success">✓ [translate:兩邊無差異 👍]</strong></div>';
-        countInfo.textContent = `[translate:APP 域名]: ${appCount} | [translate:官方域名]: ${domainCount} | [translate:差異]: 0`;
+        container.innerHTML = '<div class="empty-state"><strong class="status-success">✓ 兩邊無差異 👍</strong></div>';
+        countInfo.textContent = `APP 域名: ${appCount} | 官方域名: ${domainCount} | 差異: 0`;
         return;
     }
     
     let html = `<div class="scroll-wrapper"><table class="results-table">
         <thead>
             <tr>
-                <th>[translate:差異內容]</th>
-                <th>[translate:差異類型]</th>
-                <th>[translate:操作]</th>
+                <th>差異內容</th>
+                <th>差異類型</th>
+                <th>操作</th>
             </tr>
         </thead><tbody>`;
     
@@ -504,13 +493,13 @@ function displayResults(results, appCount, domainCount) {
         html += `<tr>
             <td>${escapeHtml(result.content)}</td>
             <td><span class="${statusClass}">${result.status}</span></td>
-            <td style="text-align: center;"><button class="copy-btn" onclick="copyToClipboard('${escapeHtml(result.content, true)}')">[translate:複製]</button></td>
+            <td style="text-align: center;"><button class="copy-btn" onclick="copyToClipboard('${escapeHtml(result.content, true)}')">複製</button></td>
         </tr>`;
     });
     
     html += `</tbody></table></div>`;
     container.innerHTML = html;
-    countInfo.textContent = `[translate:APP 域名]: ${appCount} | [translate:官方域名]: ${domainCount} | [translate:差異數]: ${results.length}`;
+    countInfo.textContent = `APP 域名: ${appCount} | 官方域名: ${domainCount} | 差異數: ${results.length}`;
 }
 
 function escapeHtml(text, forJs = false) {
@@ -523,28 +512,28 @@ function escapeHtml(text, forJs = false) {
 
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
-        alert('[translate:已複製到剪貼板]');
+        alert('已複製到剪貼板');
     });
 }
 
 function copyAllResults() {
     const appList = document.getElementById('appList').value;
     if (!appList.trim()) {
-        alert('[translate:請先進行轉換]');
+        alert('請先進行轉換');
         return;
     }
     navigator.clipboard.writeText(appList).then(() => {
-        alert('[translate:已複製所有 APP 域名到剪貼板]');
+        alert('已複製所有 APP 域名到剪貼板');
     });
 }
 
 function copyAllDiffDomains() {
     if (window._diffDomainsCopyList) {
         navigator.clipboard.writeText(window._diffDomainsCopyList).then(() => {
-            alert('[translate:已複製全部差異內容到剪貼板]');
+            alert('已複製全部差異內容到剪貼板');
         });
     } else {
-        alert('[translate:目前沒有差異資料]');
+        alert('目前沒有差異資料');
     }
 }
 
@@ -552,7 +541,7 @@ function clearAll() {
     document.getElementById('urlInput').value = '';
     document.getElementById('appList').value = '';
     document.getElementById('domainList').value = '';
-    document.getElementById('resultsContainer').innerHTML = '<div class="empty-state"><strong>[translate:尚未進行比對]</strong><br />[translate:請先貼上APP域名和要比對的域名]</div>';
+    document.getElementById('resultsContainer').innerHTML = '<div class="empty-state"><strong>尚未進行比對</strong><br>請先貼上APP域名和要比對的域名</div>';
     document.getElementById('countInfo').textContent = '';
     document.getElementById('copyDiffBtn').style.display = 'none';
     window._diffDomainsCopyList = '';
