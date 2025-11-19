@@ -26,11 +26,15 @@
     box-sizing: border-box;
 }
 
+/* 整體背景升級為多點光源 + 深色主題 */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Monaco', sans-serif;
-    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+    background:
+        radial-gradient(circle at 0% 0%, #243b6b 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, #00d4ff44 0, transparent 60%),
+        #050713;
     color: var(--color-text-primary);
-    padding: 20px;
+    padding: 24px;
     min-height: 100vh;
 }
 
@@ -59,6 +63,7 @@ h2 {
     letter-spacing: 1px;
 }
 
+/* 卡片做成玻璃霧面 + 立體陰影 */
 .input-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -72,18 +77,27 @@ h2 {
     }
 }
 
-.input-group {
-    background: var(--color-bg-card);
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
-    transition: all 0.3s ease;
+.input-group,
+.results-section {
+    background: rgba(10, 14, 39, 0.82);
+    border-radius: 18px;
+    border: 1px solid rgba(0, 212, 255, 0.18);
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    padding: 22px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.input-group:hover {
-    border-color: var(--color-border-hover);
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+.input-group:hover,
+.results-section:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 212, 255, 0.35);
+    box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.9),
+        0 0 32px rgba(0, 212, 255, 0.25);
 }
 
 .input-group label {
@@ -122,6 +136,7 @@ h2 {
     opacity: 0.6;
 }
 
+/* 霓虹膠囊按鈕樣式 */
 .button-group {
     display: flex;
     gap: 12px;
@@ -129,66 +144,103 @@ h2 {
 }
 
 button {
+    position: relative;
+    overflow: hidden;
     padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
+    border-radius: 999px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 14px;
+    font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.06em;
     border: 1px solid transparent;
+    outline: none;
+    background: transparent;
+    color: var(--color-text-primary);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+/* 共用光暈 */
+button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 0 0, #ffffff44 0, transparent 55%);
+    opacity: 0;
+    transform: translate3d(-40%, -60%, 0);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.45);
+}
+
+button:hover::after {
+    opacity: 1;
+    transform: translate3d(-10%, -20%, 0);
+}
+
+/* 主要行動按鈕 */
+.btn-compare,
+.btn-convert,
+.copy-btn-all {
+    background: radial-gradient(circle at 0 0, #00ff8844 0, transparent 55%),
+                linear-gradient(135deg, #00d4ff, #00ff88);
+    color: #050713;
+    border-color: rgba(0, 212, 255, 0.6);
 }
 
 .btn-compare {
-    background: linear-gradient(135deg, #00d4ff, #00a8cc);
-    color: #0a0e27;
     flex: 1;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-}
-
-.btn-compare:hover {
-    background: linear-gradient(135deg, #00e8ff, #00b8dc);
-    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
-    transform: translateY(-2px);
-}
-
-.btn-compare:active {
-    transform: translateY(0);
-}
-
-.btn-clear {
-    background: rgba(255, 51, 102, 0.2);
-    color: var(--color-error);
-    border: 1px solid var(--color-error);
-}
-
-.btn-clear:hover {
-    background: rgba(255, 51, 102, 0.3);
-    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
 }
 
 .btn-convert {
-    background: linear-gradient(135deg, #00ff88, #00d4ff);
-    color: #0a0e27;
     width: 100%;
     margin-top: 10px;
-    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
 }
 
-.btn-convert:hover {
-    background: linear-gradient(135deg, #00ffaa, #00e8ff);
-    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.5);
-    transform: translateY(-2px);
+.copy-btn-all {
+    width: 100%;
+    margin-top: 15px;
 }
 
+/* 清除按鈕 */
+.btn-clear {
+    background: transparent;
+    color: var(--color-error);
+    border-color: rgba(255, 51, 102, 0.9);
+    box-shadow: 0 0 0 1px rgba(255, 51, 102, 0.4);
+}
+
+.btn-clear:hover {
+    box-shadow:
+        0 0 0 1px rgba(255, 51, 102, 0.7),
+        0 8px 24px rgba(255, 51, 102, 0.35);
+}
+
+/* 小型 copy 按鈕 */
+.copy-btn {
+    background: transparent;
+    color: var(--color-primary);
+    padding: 6px 14px;
+    font-size: 11px;
+    cursor: pointer;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 212, 255, 0.8);
+    box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.2);
+}
+
+.copy-btn:hover {
+    box-shadow:
+        0 0 0 1px rgba(0, 212, 255, 0.7),
+        0 6px 18px rgba(0, 212, 255, 0.35);
+}
+
+/* 結果區塊 */
 .results-section {
-    background: var(--color-bg-card);
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+    margin-top: 10px;
 }
 
 .results-header {
@@ -207,21 +259,22 @@ button {
     text-align: right;
 }
 
+/* 表格改成儀表板風格 */
 .results-table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
+    font-size: 13px;
 }
 
 .results-table thead {
-    background: rgba(0, 212, 255, 0.05);
-    border-bottom: 2px solid var(--color-border);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(0, 255, 136, 0.03));
+    border-bottom: 1px solid var(--color-border);
 }
 
 .results-table th,
 .results-table td {
-    padding: 14px 12px;
-    border-bottom: 1px solid var(--color-border);
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(42, 53, 85, 0.8);
     word-break: break-word;
     vertical-align: middle;
     text-align: center;
@@ -231,21 +284,18 @@ button {
 .results-table td:nth-child(1) {
     width: 30%;
     min-width: 200px;
-    text-align: center;
 }
 
 .results-table th:nth-child(2),
 .results-table td:nth-child(2) {
     width: 30%;
     min-width: 120px;
-    text-align: center;
 }
 
 .results-table th:nth-child(3),
 .results-table td:nth-child(3) {
     width: 40%;
     min-width: 80px;
-    text-align: center;
 }
 
 .results-table th {
@@ -257,83 +307,77 @@ button {
 }
 
 .results-table tbody tr {
-    transition: background 0.2s ease;
+    position: relative;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.results-table tbody tr::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #00d4ff, #00ff88);
+    opacity: 0;
+    transition: opacity 0.18s ease;
 }
 
 .results-table tbody tr:hover {
     background: rgba(0, 212, 255, 0.05);
+    transform: translateY(-1px);
+}
+
+.results-table tbody tr:hover::before {
+    opacity: 1;
+}
+
+/* 狀態標籤 pill */
+.status-success,
+.status-diff-app,
+.status-diff-domain {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid transparent;
+}
+
+.status-diff-app {
+    color: #ffb38a;
+    border-color: rgba(255, 107, 53, 0.8);
+    background: rgba(255, 107, 53, 0.08);
+}
+
+.status-diff-domain {
+    color: #7bffbf;
+    border-color: rgba(0, 255, 136, 0.85);
+    background: rgba(0, 255, 136, 0.08);
 }
 
 .status-success {
     color: var(--color-success);
-    font-weight: 600;
-}
-
-.status-diff {
-    color: var(--color-error);
-    font-weight: 600;
-    font-size: 12px;
-}
-
-.status-diff-app {
-    color: #ff6b35;
-    font-weight: 600;
-    font-size: 12px;
-}
-
-.status-diff-domain {
-    color: #00ff88;
-    font-weight: 600;
-    font-size: 12px;
+    border-color: rgba(0, 255, 136, 0.7);
+    background: rgba(0, 255, 136, 0.08);
 }
 
 .empty-state {
     text-align: center;
     padding: 60px 20px;
     color: var(--color-text-secondary);
+    font-size: 18px; /* 你想要的字體大小 */
 }
 
 .empty-state strong {
+    font-size: 40px;
     color: var(--color-primary);
 }
 
-.copy-btn {
-    background: rgba(0, 212, 255, 0.2);
-    color: var(--color-primary);
-    padding: 6px 12px;
-    font-size: 11px;
-    cursor: pointer;
-    border-radius: 6px;
-    border: 1px solid var(--color-primary);
-    transition: all 0.2s;
-}
-
-.copy-btn:hover {
-    background: rgba(0, 212, 255, 0.3);
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-}
-
-.copy-btn-all {
-    background: linear-gradient(135deg, #00d4ff, #00a8cc);
-    color: #0a0e27;
-    padding: 12px 24px;
-    font-size: 13px;
-    cursor: pointer;
-    border-radius: 8px;
-    border: none;
-    font-weight: 600;
-    width: 100%;
-    margin-top: 15px;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-}
-
-.copy-btn-all:hover {
-    background: linear-gradient(135deg, #00e8ff, #00b8dc);
-    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
-    transform: translateY(-2px);
-}
-
+/* 捲軸包裝 */
 .scroll-wrapper {
     overflow-x: auto;
     border-radius: 8px;
@@ -360,26 +404,26 @@ button {
 </head>
 <body>
 <div class="container">
-    <h1><svg width="36" height="36" viewBox="0 0 36 36" style="vertical-align: middle; margin-right: 10px; display: inline-block;">
-        <defs>
-            <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
-            </linearGradient>
-        </defs>
-        <!-- 放大鏡圓圈 -->
-        <circle cx="14" cy="14" r="11" fill="none" stroke="url(#iconGrad)" stroke-width="2.5"/>
-        <!-- 放大鏡手柄 -->
-        <line x1="23" y1="23" x2="30" y2="30" stroke="url(#iconGrad)" stroke-width="2.5" stroke-linecap="round"/>
-        <!-- 內部十字線 -->
-        <line x1="14" y1="8" x2="14" y2="20" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-        <line x1="8" y1="14" x2="20" y2="14" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-    </svg> APP 域名比對工具</h1>
+    <h1>
+        <svg width="36" height="36" viewBox="0 0 36 36" style="vertical-align: middle; margin-right: 10px; display: inline-block;">
+            <defs>
+                <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <circle cx="14" cy="14" r="11" fill="none" stroke="url(#iconGrad)" stroke-width="2.5"/>
+            <line x1="23" y1="23" x2="30" y2="30" stroke="url(#iconGrad)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="14" y1="8" x2="14" y2="20" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+            <line x1="8" y1="14" x2="20" y2="14" stroke="url(#iconGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+        </svg>
+        APP 域名比對工具
+    </h1>
     
     <div class="input-section">
         <div class="input-group">
             <label>步驟 1：直接貼上斥候一鍵複製的域名</label>
-            <textarea id="urlInput" placeholder="https://yfsf.note-book-a201.top, [https://pty.if818-zip9yf152.to](https://pty.if818-zip9yf152.to), ..."></textarea>
+            <textarea id="urlInput" placeholder="https://yfsf.note-book-a201.top, https://pty.if818-zip9yf152.to, ..."></textarea>
             <button class="btn-convert" onclick="convertUrls()">轉換為 APP 域名列表</button>
         </div>
         <div class="input-group">
@@ -420,51 +464,88 @@ button {
 function convertUrls() {
     const urlInput = document.getElementById('urlInput').value;
     if (!urlInput.trim()) {
-        alert('請先貼上逗號分隔的網址列表');
+        alert('請先貼上網址列表（可以逗號或換行分隔）');
         return;
     }
-    const cleaned = urlInput.replace(/https:\/\//g, '');
-    const items = cleaned.split(',');
-    const values = items.map(item => item.trim()).filter(item => item.length > 0);
-    document.getElementById('appList').value = values.join('\n');
+
+    // 允許逗號 / 換行混用
+    const rawItems = urlInput.split(/[\n,]+/);
+    const domains = new Set();
+
+    rawItems.forEach(raw => {
+        let item = raw.trim();
+        if (!item) return;
+
+        // 處理 Markdown 形式：xxx
+        const mdMatch = item.match(/\((https?:\/\/[^)]+)\)/i);
+        if (mdMatch) {
+            item = mdMatch[1];
+        }
+
+        // 去掉頭尾的中括號
+        item = item.replace(/^\[/, '').replace(/\]$/, '').trim();
+
+        // 去掉 http/https
+        item = item.replace(/^https?:\/\//i, '');
+
+        // 截掉 path / query / fragment，只留 host
+        item = item.split(/[\/\s?#]/)[0];
+
+        if (item) {
+            domains.add(item.toLowerCase());
+        }
+    });
+
+    document.getElementById('appList').value = Array.from(domains).join('\n');
 }
 
 function normalizeData(text) {
     return text
-        .split('\n').map(line => line.trim()).filter(line => line.length > 0)
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0)
         .map(line => {
             line = line.replace(/^https?:\/\//i, '');
             if (line.indexOf(':') !== -1) {
                 line = line.substring(0, line.indexOf(':'));
             }
-            return line.toLowerCase();  // ← 加這行，轉成小寫
+            line = line.split(/[\/\s?#]/)[0];
+            return line.toLowerCase();
         });
 }
 
 function compareData() {
     const appText = document.getElementById('appList').value;
     const domainText = document.getElementById('domainList').value;
+
     if (!appText.trim() || !domainText.trim()) {
         alert('請在兩個欄位都貼上數據');
         return;
     }
+
     const appList = normalizeData(appText);
     const domainList = normalizeData(domainText);
+
+    const appSet = new Set(appList);
+    const domainSet = new Set(domainList);
+
     const results = [];
-    
-    for (let item of appList) {
-        if (!domainList.includes(item)) {
+
+    // APP 有、運維沒有
+    appSet.forEach(item => {
+        if (!domainSet.has(item)) {
             results.push({content: item, status: 'APPYES/域名表NO', type: 'diff'});
         }
-    }
-    
-    for (let item of domainList) {
-        if (!appList.includes(item)) {
+    });
+
+    // 運維有、APP 沒有
+    domainSet.forEach(item => {
+        if (!appSet.has(item)) {
             results.push({content: item, status: 'APPNO/域名表YES', type: 'diff'});
         }
-    }
-    
-    displayResults(results, appList.length, domainList.length);
+    });
+
+    displayResults(results, appSet.size, domainSet.size);
     document.getElementById('copyDiffBtn').style.display = results.length ? 'block' : 'none';
     window._diffDomainsCopyList = results.map(r => r.content).join('\n');
 }
@@ -472,13 +553,13 @@ function compareData() {
 function displayResults(results, appCount, domainCount) {
     const container = document.getElementById('resultsContainer');
     const countInfo = document.getElementById('countInfo');
-    
+
     if (results.length === 0) {
-        container.innerHTML = '<div class="empty-state"><strong class="status-success">✓ 兩邊無差異 👍</strong></div>';
+        container.innerHTML = '<div class="empty-state"><strong class="status-success">👍 兩邊無差異 👍</strong></div>';
         countInfo.textContent = `APP 域名: ${appCount} | 官方域名: ${domainCount} | 差異: 0`;
         return;
     }
-    
+
     let html = `<div class="scroll-wrapper"><table class="results-table">
         <thead>
             <tr>
@@ -487,16 +568,19 @@ function displayResults(results, appCount, domainCount) {
                 <th>操作</th>
             </tr>
         </thead><tbody>`;
-    
+
     results.forEach((result) => {
         const statusClass = result.status.includes('APPYES') ? 'status-diff-app' : 'status-diff-domain';
+        const safeForHtml = escapeHtml(result.content);
+        const safeForJs = escapeHtml(result.content, true);
+
         html += `<tr>
-            <td>${escapeHtml(result.content)}</td>
+            <td>${safeForHtml}</td>
             <td><span class="${statusClass}">${result.status}</span></td>
-            <td style="text-align: center;"><button class="copy-btn" onclick="copyToClipboard('${escapeHtml(result.content, true)}')">複製</button></td>
+            <td style="text-align: center;"><button class="copy-btn" onclick="copyToClipboard('${safeForJs}')">複製</button></td>
         </tr>`;
     });
-    
+
     html += `</tbody></table></div>`;
     container.innerHTML = html;
     countInfo.textContent = `APP 域名: ${appCount} | 官方域名: ${domainCount} | 差異數: ${results.length}`;
@@ -504,9 +588,19 @@ function displayResults(results, appCount, domainCount) {
 
 function escapeHtml(text, forJs = false) {
     if (forJs) {
-        return text.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        return text
+            .replace(/\\/g, '\\\\')
+            .replace(/'/g, '\\\'')
+            .replace(/"/g, '\\"')
+            .replace(/\r?\n/g, '\\n');
     }
-    const map = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": ''};
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '''
+    };
     return text.replace(/[&<>"']/g, m => map[m]);
 }
 
@@ -541,7 +635,8 @@ function clearAll() {
     document.getElementById('urlInput').value = '';
     document.getElementById('appList').value = '';
     document.getElementById('domainList').value = '';
-    document.getElementById('resultsContainer').innerHTML = '<div class="empty-state"><strong>尚未進行比對</strong><br>請先貼上APP域名和要比對的域名</div>';
+    document.getElementById('resultsContainer').innerHTML =
+        '<div class="empty-state"><strong>尚未進行比對</strong><br>請先貼上APP域名和要比對的域名</div>';
     document.getElementById('countInfo').textContent = '';
     document.getElementById('copyDiffBtn').style.display = 'none';
     window._diffDomainsCopyList = '';
@@ -549,3 +644,4 @@ function clearAll() {
 </script>
 </body>
 </html>
+
