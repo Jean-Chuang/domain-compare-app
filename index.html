@@ -568,17 +568,22 @@ function displayResults(results, appCount, domainCount) {
                 <th>差異類型</th>
                 <th>操作</th>
             </tr>
-        </thead><tbody>`;
+        </thead>
+        <tbody>`;
 
+    // 關鍵：保證每個 <tr> 都塞入三個 <td>（域名、狀態、複製按鈕）
     results.forEach((result) => {
         const statusClass = result.status.includes('APPYES') ? 'status-diff-app' : 'status-diff-domain';
-        const safeForHtml = escapeHtml(result.content);
-        const safeForJs = escapeHtml(result.content, true);
-
+        // 內容全部 escapeHtml，避免亂碼/特殊符號影響表格分欄
+        const domainText = escapeHtml(result.content);
+        const statusText = escapeHtml(result.status);
+        const domainJs = escapeHtml(result.content, true);
         html += `<tr>
-            <td>${safeForHtml}</td>
-            <td><span class="${statusClass}">${result.status}</span></td>
-            <td style="text-align: center;"><button class="copy-btn" onclick="copyToClipboard('${safeForJs}')">複製</button></td>
+            <td>${domainText}</td>
+            <td><span class="${statusClass}">${statusText}</span></td>
+            <td style="text-align: center;">
+                <button class="copy-btn" onclick="copyToClipboard('${domainJs}')">複製</button>
+            </td>
         </tr>`;
     });
 
@@ -586,6 +591,7 @@ function displayResults(results, appCount, domainCount) {
     container.innerHTML = html;
     countInfo.textContent = `APP 域名: ${appCount} | 官方域名: ${domainCount} | 差異數: ${results.length}`;
 }
+
 
 function escapeHtml(text, forJs = false) {
     if (forJs) {
